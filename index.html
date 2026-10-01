@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GCA — Get Clear Answer</title>
+<meta name="description" content="GCA (Get Clear Answer) by Hizvana Brain AI. Skip the noise. Get the answer. Join the waitlist.">
+<meta name="theme-color" content="#07060d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07060d; --fg:#f4f3ff; --muted:#9a98b5; --card:rgba(255,255,255,.04); --line:rgba(255,255,255,.09);
+  --a:#7c5cff; --b:#22d3ee; --c:#ff5cb8;
+  --grad:linear-gradient(110deg,var(--a),var(--b) 55%,var(--c));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.logo{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.03em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* aurora background */
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(110px);opacity:.45;animation:float 18s ease-in-out infinite}
+.aurora i:nth-child(1){width:520px;height:520px;background:var(--a);top:-120px;left:-100px}
+.aurora i:nth-child(2){width:460px;height:460px;background:var(--b);top:30%;right:-140px;animation-delay:-6s;opacity:.28}
+.aurora i:nth-child(3){width:420px;height:420px;background:var(--c);bottom:-160px;left:25%;animation-delay:-12s;opacity:.25}
+@keyframes float{50%{transform:translate(60px,-40px) scale(1.12)}}
+.grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 70%);opacity:.5}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.25rem}
+.logo b{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;color:#07060d;font-size:.85rem}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 18px;border-radius:99px;font-size:.9rem;font-weight:500;backdrop-filter:blur(8px);transition:.2s}
+.pill:hover{border-color:var(--a);transform:translateY(-1px)}
+
+/* hero */
+.hero{text-align:center;padding:70px 0 40px}
+.tag{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:99px;font-size:.82rem;color:var(--muted)}
+.tag span{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
+h1{font-size:clamp(2.8rem,9vw,6.2rem);line-height:.98;margin:26px 0 20px;font-weight:700}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.sub{font-size:clamp(1.05rem,2.4vw,1.35rem);color:var(--muted);max-width:480px;margin:0 auto 34px}
+
+/* waitlist form */
+form.wl{display:flex;gap:8px;max-width:460px;margin:0 auto;padding:7px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.05);backdrop-filter:blur(14px);transition:.2s}
+form.wl:focus-within{border-color:var(--a);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+form.wl input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--fg);font:inherit;padding:0 16px}
+form.wl input::placeholder{color:#6f6d8a}
+button{font:inherit;font-weight:600;border:0;cursor:pointer;color:#07060d;background:var(--grad);padding:13px 24px;border-radius:99px;transition:.2s;white-space:nowrap}
+button:hover{transform:scale(1.03);filter:brightness(1.1)}
+button:disabled{opacity:.6;cursor:default;transform:none}
+.note{margin-top:14px;font-size:.85rem;color:var(--muted);min-height:1.3em}
+.note.ok{color:#34d399}.note.err{color:#ff7a90}
+.count{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:22px;font-size:.88rem;color:var(--muted)}
+.avs{display:flex}.avs i{width:26px;height:26px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;background:var(--grad)}
+.avs i:nth-child(2){filter:hue-rotate(60deg)}.avs i:nth-child(3){filter:hue-rotate(140deg)}.avs i:first-child{margin-left:0}
+
+/* demo: noise -> answer */
+.demo{margin:70px auto 0;max-width:820px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+.box{border:1px solid var(--line);background:var(--card);border-radius:24px;padding:22px;backdrop-filter:blur(10px);min-height:210px;position:relative;overflow:hidden}
+.box small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.noise span{display:inline-block;margin:3px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.06);font-size:.78rem;color:#8d8ba8;animation:jit 3s ease-in-out infinite}
+.noise span:nth-child(odd){animation-delay:-1.4s;transform:rotate(-3deg)}
+.noise span:nth-child(3n){transform:rotate(4deg)}
+@keyframes jit{50%{transform:translateY(-5px) rotate(2deg)}}
+.arrow{width:46px;height:46px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#07060d;font-size:1.3rem;font-weight:700;box-shadow:0 0 40px rgba(124,92,255,.6)}
+.answer{border-color:rgba(124,92,255,.5);box-shadow:0 0 60px rgba(124,92,255,.18)}
+.answer .big{font-family:"Space Grotesk";font-size:2.6rem;font-weight:700;margin:6px 0 10px}
+.answer p{color:var(--muted);font-size:.9rem}
+.bar{height:6px;border-radius:9px;background:var(--grad);margin-top:18px;width:0;animation:grow 2.4s .5s ease-out forwards}
+@keyframes grow{to{width:100%}}
+
+/* features */
+section{padding:90px 0 0}
+.h2{font-size:clamp(2rem,5vw,3.2rem);text-align:center;margin-bottom:40px;font-weight:700}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.f{border:1px solid var(--line);background:var(--card);border-radius:24px;padding:28px;transition:.25s;position:relative;overflow:hidden}
+.f:hover{transform:translateY(-6px);border-color:rgba(124,92,255,.5)}
+.f:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) 0,rgba(124,92,255,.18),transparent 60%);opacity:0;transition:.3s}
+.f:hover:before{opacity:1}
+.ic{font-size:2rem;width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:rgba(255,255,255,.06);margin-bottom:22px}
+.f h3{font-size:1.4rem;margin-bottom:6px}
+.f p{color:var(--muted);font-size:.95rem}
+
+/* final cta */
+.cta{margin-top:90px;text-align:center;border:1px solid var(--line);border-radius:36px;padding:70px 20px;background:linear-gradient(160deg,rgba(124,92,255,.16),rgba(34,211,238,.06) 60%,rgba(255,92,184,.1));position:relative;overflow:hidden}
+.cta h2{font-size:clamp(2rem,6vw,3.6rem);margin-bottom:12px}
+.cta .sub{margin-bottom:28px}
+
+footer{padding:50px 0 36px;text-align:center;color:var(--muted);font-size:.85rem}
+footer b{color:var(--fg);font-weight:600}
+
+.reveal{opacity:0;transform:translateY(24px);transition:.8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:760px){
+  .demo{grid-template-columns:1fr}.arrow{margin:0 auto;transform:rotate(90deg)}
+  .feats{grid-template-columns:1fr}
+  .hero{padding-top:40px}
+  form.wl{flex-direction:column;border-radius:26px;padding:10px}
+  form.wl input{padding:12px 14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.bar{width:100%}}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div><div class="grid"></div>
+
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#"><b>G</b>GCA</a>
+    <a class="pill" href="#join">Join waitlist</a>
+  </nav>
+
+  <header class="hero">
+    <div class="tag"><span></span> Early access opening soon</div>
+    <h1>Get <span class="g">Clear</span><br>Answers.</h1>
+    <p class="sub">No noise. No guesswork. Just the answer.</p>
+
+    <form class="wl" id="join" novalidate>
+      <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+      <button type="submit">Join waitlist</button>
+    </form>
+    <div class="note" id="note" role="status" aria-live="polite"></div>
+    <div class="count"><div class="avs"><i></i><i></i><i></i></div><span id="count">Be among the first to try GCA</span></div>
+
+    <div class="demo reveal">
+      <div class="box noise">
+        <small>Before</small>
+        <span>10 tabs</span><span>conflicting sources</span><span>ads</span><span>long threads</span><span>opinions</span><span>maybe?</span><span>it depends…</span><span>scroll</span>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box answer">
+        <small>With GCA</small>
+        <div class="big">Yes. Do this.</div>
+        <p>Direct, sourced, in seconds.</p>
+        <div class="bar"></div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="h2 reveal">Built for <span class="g">clarity</span></h2>
+    <div class="feats">
+      <div class="f reveal"><div class="ic">⚡</div><h3>Instant</h3><p>Answers in seconds.</p></div>
+      <div class="f reveal"><div class="ic">🎯</div><h3>Precise</h3><p>Straight to the point.</p></div>
+      <div class="f reveal"><div class="ic">🔍</div><h3>Trusted</h3><p>Backed by sources.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="cta reveal">
+      <h2>Ready for <span class="g">clear</span>?</h2>
+      <p class="sub">Get early access.</p>
+      <form class="wl" id="join2" novalidate>
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required autocomplete="email">
+        <button type="submit">Join waitlist</button>
+      </form>
+      <div class="note" id="note2" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>GCA</b> · Get Clear Answer</p>
+    <p style="margin-top:6px">A product of <b>Hizvana Brain AI</b> · © <span id="yr"></span></p>
+  </footer>
+</div>
+
+<script>
+/* Set this to your form backend (Formspree, Supabase edge function, etc.).
+   It receives a JSON POST: { email, source }. If empty, signups are kept in this browser only. */
+const WAITLIST_ENDPOINT = "";
+
+const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const store = {
+  get(){ try{ return JSON.parse(localStorage.getItem("gca_waitlist")||"[]") }catch(e){ return [] } },
+  add(e){ try{ const l=this.get(); if(!l.includes(e)){ l.push(e); localStorage.setItem("gca_waitlist",JSON.stringify(l)) } }catch(_){} }
+};
+
+function wire(formId, noteId){
+  const form = document.getElementById(formId), note = document.getElementById(noteId);
+  form.addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const email = form.email.value.trim(), btn = form.querySelector("button");
+    note.className = "note";
+    if(!re.test(email)){ note.textContent = "Please enter a valid email."; note.classList.add("err"); return }
+    btn.disabled = true; btn.textContent = "Joining…";
+    try{
+      if(WAITLIST_ENDPOINT){
+        const r = await fetch(WAITLIST_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({email,source:formId})});
+        if(!r.ok) throw new Error();
+      } else store.add(email);
+      form.reset(); btn.textContent = "You're in ✓";
+      note.textContent = "Thanks! We'll email you when GCA is ready."; note.classList.add("ok");
+    }catch(_){
+      btn.textContent = "Join waitlist"; btn.disabled = false;
+      note.textContent = "Something went wrong. Please try again."; note.classList.add("err");
+    }
+  });
+}
+wire("join","note"); wire("join2","note2");
+
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* scroll reveal */
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target) } }), {threshold:.15});
+document.querySelectorAll(".reveal").forEach((el,i)=>{ el.style.transitionDelay=(i%3)*90+"ms"; io.observe(el) });
+
+/* card spotlight */
+document.querySelectorAll(".f").forEach(c => c.addEventListener("pointermove", e => {
+  const r=c.getBoundingClientRect(); c.style.setProperty("--x",(e.clientX-r.left)+"px");
+}));
+</script>
+</body>
+</html>
