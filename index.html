@@ -189,9 +189,9 @@ footer b{color:var(--ink)}
 
 /* word cycler */
 .cyc{display:inline-flex;align-items:center;gap:8px;margin:-8px 0 26px;font-weight:600;font-size:1.05rem;color:var(--muted)}
-.cyc .w{display:inline-block;white-space:nowrap;min-width:6.4em;text-align:center;height:1.9em;overflow:hidden;background:var(--ink);color:#fff;border-radius:10px;padding:0 12px}
-.cyc .w span{display:block;line-height:1.9em;animation:cyc 10s cubic-bezier(.7,0,.2,1) infinite}
-@keyframes cyc{0%,18%{transform:translateY(0)}25%,43%{transform:translateY(-100%)}50%,68%{transform:translateY(-200%)}75%,93%{transform:translateY(-300%)}100%{transform:translateY(-400%)}}
+.cyc .w{display:inline-block;white-space:nowrap;min-width:7em;text-align:center;height:1.9em;overflow:hidden;background:var(--ink);color:#fff;border-radius:10px;padding:0 12px}
+.cyc .w span{display:block;line-height:1.9em;animation:cyc 14s cubic-bezier(.7,0,.2,1) infinite}
+@keyframes cyc{0.00%,13.00%{transform:translateY(-0%)}16.67%,29.67%{transform:translateY(-100%)}33.33%,46.33%{transform:translateY(-200%)}50.00%,63.00%{transform:translateY(-300%)}66.67%,79.67%{transform:translateY(-400%)}83.33%,96.33%{transform:translateY(-500%)}100%{transform:translateY(-600%)}}
 
 /* steps */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
@@ -288,7 +288,7 @@ footer b{color:var(--ink)}
       <div class="chip"><i></i> Coming soon</div>
       <h1><span class="l"><span>Doubts in.</span></span><span class="l"><span><em>Clarity</em> out.</span></span></h1>
       <p class="sub">Get Clear Answer. One question, one clear answer.</p>
-      <div class="cyc" aria-hidden="true">Clear answers for <span class="w"><span>Science</span><span>Maths</span><span>SST</span><span>English</span><span>Science</span></span></div>
+      <div class="cyc" aria-hidden="true">Clear answers for <span class="w"><span>Physics</span><span>Chemistry</span><span>Biology</span><span>Maths</span><span>History</span><span>English</span><span>Physics</span></span></div>
 
       <form class="wl" id="join" novalidate>
         <div class="row">
