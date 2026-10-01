@@ -61,14 +61,8 @@ h1 em:after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.16e
 
 /* waitlist */
 .wl{max-width:480px}
-.classes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.classes label{cursor:pointer}
-.classes input{position:absolute;opacity:0;pointer-events:none}
-.classes span{display:block;padding:9px 18px;border-radius:99px;background:var(--mist);font-weight:600;font-size:.95rem;border:2px solid transparent;transition:.15s}
-.classes label:hover span{transform:translateY(-2px)}
-.classes input:checked+span{background:#eeeeff;border-color:var(--violet);color:var(--violet)}
-.classes input:focus-visible+span{outline:3px solid var(--violet);outline-offset:2px}
 .row{display:flex;gap:10px}
+.wl .row{margin-top:0}
 .row input[type=email]{flex:1;min-width:0;font:inherit;padding:14px 18px;border-radius:16px;border:2px solid var(--line);background:#fff;outline:0;transition:.15s}
 .row input[type=email]:focus{border-color:var(--violet);box-shadow:0 0 0 4px rgba(91,91,246,.12)}
 .note{margin-top:12px;font-size:.92rem;color:var(--muted);min-height:1.4em}
@@ -166,9 +160,7 @@ section{padding:90px 0 0}
 .cta h2{font-size:clamp(2.3rem,6vw,4rem);margin-bottom:10px}
 .cta .sub{color:#e0e0ff;margin:0 auto 26px}
 .cta .wl{margin:0 auto}
-.cta .classes span{background:rgba(255,255,255,.16);color:#fff}
-.cta .classes input:checked+span{background:#fff;color:var(--violet);border-color:#fff}
-.cta .row input[type=email]{border-color:transparent}
+.cta .cta .cta .row input[type=email]{border-color:transparent}
 .cta .note{color:#e0e0ff}.cta .note.ok{color:#fff}.cta .note.err{color:#ffd0d6}
 
 footer{padding:44px 0 36px;text-align:center;color:var(--muted);font-size:.92rem}
@@ -179,8 +171,7 @@ footer b{color:var(--ink)}
 
 @media(max-width:860px){
   .hero{grid-template-columns:1fr;text-align:center;padding-top:20px;min-height:0}
-  .sub,.wl{margin-left:auto;margin-right:auto}.classes{justify-content:center}
-  .art{max-width:380px}
+  .sub,.wl{margin-left:auto;margin-right:auto}  .art{max-width:380px}
   .feats{grid-template-columns:1fr}
   .flow{grid-template-columns:1fr}.arrow{margin:0 auto;transform:rotate(90deg);animation:none}
 }
@@ -204,12 +195,6 @@ footer b{color:var(--ink)}
       <p class="sub">Get Clear Answer. One question, one clear answer.</p>
 
       <form class="wl" id="join" novalidate>
-        <div class="classes" role="radiogroup" aria-label="Your class">
-          <label><input type="radio" name="grade" value="9"><span>Class 9</span></label>
-          <label><input type="radio" name="grade" value="10" checked><span>Class 10</span></label>
-          <label><input type="radio" name="grade" value="11"><span>Class 11</span></label>
-          <label><input type="radio" name="grade" value="12"><span>Class 12</span></label>
-        </div>
         <div class="row">
           <input type="email" name="email" placeholder="Your email" aria-label="Email address" required autocomplete="email">
           <button class="btn" type="submit">Join waitlist</button>
@@ -270,12 +255,6 @@ footer b{color:var(--ink)}
       <h2>Get clear. Get early.</h2>
       <p class="sub">Join the waitlist.</p>
       <form class="wl" id="join2" novalidate>
-        <div class="classes" role="radiogroup" aria-label="Your class">
-          <label><input type="radio" name="grade" value="9"><span>Class 9</span></label>
-          <label><input type="radio" name="grade" value="10" checked><span>Class 10</span></label>
-          <label><input type="radio" name="grade" value="11"><span>Class 11</span></label>
-          <label><input type="radio" name="grade" value="12"><span>Class 12</span></label>
-        </div>
         <div class="row">
           <input type="email" name="email" placeholder="Your email" aria-label="Email address" required autocomplete="email">
           <button class="btn" type="submit">Join waitlist</button>
@@ -293,7 +272,7 @@ footer b{color:var(--ink)}
 
 <script>
 /* Set this to your form backend (Formspree, Supabase edge function, etc.).
-   It receives a JSON POST: { email, grade, source }. If empty, signups are kept in this browser only. */
+   It receives a JSON POST: { email, source }. If empty, signups are kept in this browser only. */
 const WAITLIST_ENDPOINT = "";
 
 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -306,15 +285,15 @@ function wire(formId, noteId){
   const form = document.getElementById(formId), note = document.getElementById(noteId);
   form.addEventListener("submit", async ev => {
     ev.preventDefault();
-    const email = form.email.value.trim(), grade = form.grade.value, btn = form.querySelector("button");
+    const email = form.email.value.trim(), btn = form.querySelector("button");
     note.className = "note";
     if(!re.test(email)){ note.textContent = "Please enter a valid email."; note.classList.add("err"); return }
     btn.disabled = true; btn.textContent = "Joining…";
     try{
       if(WAITLIST_ENDPOINT){
-        const r = await fetch(WAITLIST_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({email,grade,source:formId})});
+        const r = await fetch(WAITLIST_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({email,source:formId})});
         if(!r.ok) throw new Error();
-      } else store.add({email,grade});
+      } else store.add({email});
       form.email.value = ""; btn.textContent = "You're in ✓";
       note.textContent = "Yay! We'll email you when GCA is ready."; note.classList.add("ok");
     }catch(_){
